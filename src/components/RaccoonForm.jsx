@@ -7,15 +7,15 @@ function RaccoonForm({ setRaccoonsArr, raccoonsArr }) {
     const [img_url, setImgUrl] = useState("")
 
     function handleChangeName(event) {
-        setName(event.target)
+        setName(event.target.value)
     }
     
     function handleChangeLocation(event) {
-        setLocation(event.target)
+        setLocation(event.target.value)
     }
 
     function handleChangeImageUrl(event) {
-        setImgUrl(event.target)
+        setImgUrl(event.target.value)
     }
 
     function handleSubmit(event) {
@@ -23,13 +23,17 @@ function RaccoonForm({ setRaccoonsArr, raccoonsArr }) {
 
         const bodyObj = {name, location, img_url}
 
-        fetch("http://localhost:5555", {
+        fetch("http://localhost:5555/raccoons", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
-            body: bodyObj
+            body: JSON.stringify ({
+            name,
+            location,
+            img_url   
+            })
         })
         .then( res => {
             if (res.ok) {
@@ -48,22 +52,22 @@ function RaccoonForm({ setRaccoonsArr, raccoonsArr }) {
             <label htmlFor="name">Name:</label>
             <input type="text" 
             name="name" 
-            onChange={handleChangeName} 
-            value={'name'}
+            onChange={e => handleChangeName(e)} 
+            value={name}
             placeholder="raccoon name" />
 
             <label htmlFor="location">Location:</label>
             <input type="text" 
             name="location" 
-            onChange={handleChangeLocation} 
-            value={'location'}
+            onChange={e => handleChangeLocation(e)} 
+            value={location}
             placeholder="raccoon location" />
 
             <label htmlFor="img_url">Image:</label>
             <input type="text" 
             name="img_url" 
-            onChange={handleChangeImageUrl} 
-            value={'img_url'}
+            onChange={e => handleChangeImageUrl(e)} 
+            value={img_url}
             placeholder="image url" />
 
             <br/>

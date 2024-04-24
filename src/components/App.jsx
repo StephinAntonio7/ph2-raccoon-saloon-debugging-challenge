@@ -7,15 +7,16 @@ function App() {
   const [ lightMode, setLightMode ] = useState( false )
   const [ audioOn, setAudioOn ] = useState( true )
 
-  const [ raccoonsArr, setRaccoonsArr ] = useState( '' )
+  const [ raccoonsArr, setRaccoonsArr ] = useState( [] )
 
   function handleLightModeClick(event) {
-    setLightMode( lightMode )
+    event.preventDefault
+    setLightMode( !lightMode )
   }
 
-  useEffect( () => {
+  useEffect(() => {
 
-    fetch("http://localhost:5555/racons")
+    fetch("http://localhost:5555/raccoons")
     .then( res => {
       if (res.ok) {
         return res.json()
@@ -35,7 +36,7 @@ function App() {
 
       <header>
 
-        <button className="light-mode-button" onClick={ handleLightModeClick }>
+        <button className="light-mode-button" onClick={event => handleLightModeClick (event)}>
           { lightMode ? "Switch to Dark Mode" : "Switch to Light Mode" }
         </button>
 
@@ -55,7 +56,7 @@ function App() {
 
         <RaccoonsContainer raccoonsArr={raccoonsArr} audioOn={audioOn} />
 
-        <RaccoonForm raccoonsArr={raccoonsArr} />
+        <RaccoonForm raccoonsArr={raccoonsArr} setRaccoonsArr={setRaccoonsArr}/>
 
       </main>
 
